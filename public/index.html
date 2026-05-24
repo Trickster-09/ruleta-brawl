@@ -366,9 +366,18 @@ function spin() {
   const n = Math.min(activeBrawlers.length, 20);
   const slice = (2 * Math.PI) / n;
   const winnerIdx = Math.floor(Math.random() * n);
-  const targetAngleForWinner = -(winnerIdx * slice) - slice / 2;
+  // Pointer is at RIGHT (3 oclock = 0 rad in canvas coords).
+  // Slice i is drawn from: angle + i*slice - PI/2
+  // Center of slice i is at: angle + i*slice - PI/2 + slice/2
+  // We want that center to equal 0 (pointer position), so:
+  // targetAngle = PI/2 - i*slice - slice/2
+  const targetAngle = Math.PI / 2 - winnerIdx * slice - slice / 2;
+  const currentNorm = ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+  const targetNorm = ((targetAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+  let delta = targetNorm - currentNorm;
+  if (delta <= 0) delta += 2 * Math.PI;
   const extraSpins = (7 + Math.random() * 5) * 2 * Math.PI;
-  const totalRotation = targetAngleForWinner + extraSpins;
+  const totalRotation = delta + extraSpins;
   const duration = 4800 + Math.random() * 1400;
   const startAngle = angle;
   const startTime = performance.now();

@@ -1,0 +1,12 @@
+{
+  "name": "brawl-ruleta",
+  "version": "1.0.0",
+  "description": "Ruleta Brawl Stars",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
